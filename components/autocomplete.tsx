@@ -1,14 +1,12 @@
-import * as React from "react";
-import algoliasearch from "algoliasearch/lite";
 import "@algolia/autocomplete-theme-classic";
-import type { Hit } from "@algolia/client-search";
-import {
-  autocomplete,
-  getAlgoliaResults,
-  AutocompleteComponents,
-} from "@algolia/autocomplete-js";
+import "@algolia/autocomplete-theme-classic";
 
-import "@algolia/autocomplete-theme-classic";
+import type { AutocompleteComponents } from "@algolia/autocomplete-js";
+import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
+import type { Hit } from "@algolia/client-search";
+import algoliasearch from "algoliasearch/lite";
+import * as React from "react";
+import { render } from "react-dom";
 
 const searchClient = algoliasearch(
   "latency",
@@ -75,7 +73,9 @@ export function Autocomplete(props: any) {
       renderer: {
         createElement: React.createElement,
         Fragment: React.Fragment,
-        ...props,
+      },
+      render({ children }, root) {
+        render(children as any, root);
       },
       getSources({ query }) {
         return [
@@ -109,6 +109,6 @@ export function Autocomplete(props: any) {
     return () => {
       search.destroy();
     };
-  }, [props]);
+  });
   return <div ref={containerRef} style={{ marginTop: "2rem" }} />;
 }
