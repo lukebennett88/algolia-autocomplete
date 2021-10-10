@@ -68,7 +68,7 @@ const IndexPage: NextPage = () => {
                   </div>
                   <div className="flex-1 px-2 flex justify-center lg:ml-6 lg:justify-end">
                     <div className="max-w-lg w-full lg:max-w-xs">
-                      <Autocomplete placeholder="Search" openOnFocus />
+                      <Autocomplete />
                     </div>
                   </div>
                   <div className="flex lg:hidden">
