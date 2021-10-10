@@ -40,17 +40,6 @@ export function Autocomplete(
     status: "idle",
   });
 
-  // React.useEffect(() => {
-  //   const handleEscape = (e: KeyboardEvent) => {
-  //     if (e.key !== "Escape") {
-  //       return;
-  //     }
-  //     setAutocompleteState((prevState) => ({ ...prevState, isOpen: false }));
-  //   };
-  //   addEventListener("keydown", handleEscape);
-  //   return () => removeEventListener("keydown", handleEscape);
-  // }, []);
-
   const autocomplete = React.useMemo(
     () =>
       createAutocomplete<
@@ -108,22 +97,29 @@ export function Autocomplete(
       panelElement: panelRef.current,
     });
 
-    window.addEventListener("touchstart", onTouchStart);
-    window.addEventListener("touchmove", onTouchMove);
+    addEventListener("touchstart", onTouchStart);
+    addEventListener("touchmove", onTouchMove);
 
     return () => {
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
+      removeEventListener("touchstart", onTouchStart);
+      removeEventListener("touchmove", onTouchMove);
     };
   }, [getEnvironmentProps, formRef, inputRef, panelRef]);
 
+  const formProps = autocomplete.getFormProps({
+    inputElement: inputRef.current,
+  });
+  const labelProps = autocomplete.getLabelProps({});
+  const inputProps = autocomplete.getInputProps({
+    inputElement: inputRef.current,
+    placeholder: "Search",
+  });
+  const panelProps = autocomplete.getPanelProps({});
+
   return (
     <div className="relative" {...autocomplete.getRootProps({})}>
-      <form
-        ref={formRef}
-        {...autocomplete.getFormProps({ inputElement: inputRef.current })}
-      >
-        <label className="sr-only" {...autocomplete.getLabelProps({})}>
+      <form ref={formRef} {...formProps}>
+        <label className="sr-only" {...labelProps}>
           Search
         </label>
         <div className="relative text-gray-400 focus-within:text-gray-600">
@@ -142,9 +138,8 @@ export function Autocomplete(
           <input
             className="block w-full bg-white py-2 pl-11 pr-3 border border-transparent rounded-md leading-5 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-600 focus:ring-white focus:border-white sm:text-sm"
             ref={inputRef}
-            {...autocomplete.getInputProps({
-              inputElement: inputRef.current,
-            })}
+            {...inputProps}
+            type="text"
           />
         </div>
       </form>
@@ -152,91 +147,84 @@ export function Autocomplete(
       {autocompleteState.isOpen ? (
         <div
           ref={panelRef}
-          className={[
-            "aa-Panel",
-            "aa-Panel--desktop",
-            autocompleteState.status === "stalled" && "aa-Panel--stalled",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-          {...autocomplete.getPanelProps({})}
+          className={classNames(
+            "absolute inset-x-0 mt-4 overflow-hidden bg-white shadow",
+            "sm:mt-6 sm:w-96 sm:rounded-md",
+            // Full bleed form up until `sm`
+            "w-screen ml-[calc(50%-0.25rem)] transform -translate-x-1/2",
+            // Reset full bleed for `sm` and above
+            "sm:w-[calc(100%+8rem)] sm:-ml-16 sm:translate-x-0"
+          )}
+          {...panelProps}
         >
-          <div
-            className={classNames(
-              "absolute inset-x-0 mt-4 overflow-hidden bg-white shadow",
-              "sm:mt-6 sm:w-96 sm:rounded-md",
-              // Full bleed form up until `sm`
-              "w-screen ml-[calc(50%-0.25rem)] transform -translate-x-1/2",
-              // Reset full bleed for `sm` and above
-              "sm:w-[calc(100%+8rem)] sm:-ml-16 sm:translate-x-0"
-            )}
-          >
-            {autocompleteState.collections.map((collection, index) => {
-              const { source, items } = collection;
-              return (
-                <section key={`source-${index}`}>
-                  {items.length > 0 && (
-                    <ul
-                      className="divide-y divide-gray-200"
-                      {...autocomplete.getListProps()}
-                    >
-                      {items.map((item, index) => {
-                        return (
-                          <li
-                            key={item.objectID}
-                            {...autocomplete.getItemProps({ item, source })}
+          {autocompleteState.collections.map((collection, index) => {
+            const { source, items } = collection;
+            return (
+              <section key={`source-${index}`}>
+                {items.length > 0 && (
+                  <ul
+                    className="divide-y divide-gray-200"
+                    {...autocomplete.getListProps()}
+                  >
+                    {items.map((item, index) => {
+                      const itemProps = autocomplete.getItemProps({
+                        item,
+                        source,
+                      });
+                      return (
+                        <li key={item.objectID} {...itemProps}>
+                          <a
+                            href={item.url}
+                            className={classNames(
+                              index === 0 && "rounded-t-md",
+                              index === items.length - 1 && "rounded-b-md",
+                              itemProps["aria-selected"] &&
+                                "bg-gray-50 outline-none ring-inset ring-2 ring-offset-2 ring-offset-teal-600 ring-white border-white",
+                              "block border-2 border-transparent",
+                              "hover:bg-gray-50",
+                              "focus:outline-none focus:ring-inset focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-600 focus:ring-white focus:border-white"
+                            )}
                           >
-                            <a
-                              href={item.url}
-                              className={classNames(
-                                index === 0 && "rounded-t-md",
-                                index === items.length - 1 && "rounded-b-md",
-                                "block border-2 border-transparent",
-                                "hover:bg-gray-50",
-                                "focus:outline-none focus:ring-inset focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-600 focus:ring-white focus:border-white"
-                              )}
-                            >
-                              <div className="flex items-center px-4 py-4 sm:px-6">
-                                <div className="flex items-center flex-1 min-w-0">
-                                  <div className="flex-shrink-0 border p-1 rounded">
-                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                      className="w-12 h-12 object-contain"
-                                      src={item.image}
-                                      alt={item.name}
-                                    />
-                                  </div>
-                                  <div className="flex-1 min-w-0 px-4">
-                                    <div>
-                                      <p className="text-sm font-medium text-teal-700 truncate">
-                                        {item.name}
+                            <div className="flex items-center px-4 py-4 sm:px-6">
+                              <div className="flex items-center flex-1 min-w-0">
+                                <div className="flex-shrink-0 border p-1 rounded">
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img
+                                    className="w-12 h-12 object-contain"
+                                    src={item.image}
+                                    alt={item.name}
+                                  />
+                                </div>
+                                <div className="flex-1 min-w-0 px-4">
+                                  <div>
+                                    <p className="text-sm font-medium text-teal-700 truncate">
+                                      {item.name}
+                                    </p>
+                                    <div className="flex items-center mt-2 text-sm text-gray-500">
+                                      <p className="truncate">
+                                        By <strong>{item.brand}</strong> in{" "}
+                                        <strong>{item.categories[0]}</strong>
                                       </p>
-                                      <div className="flex items-center mt-2 text-sm text-gray-500">
-                                        <p className="truncate">
-                                          By <strong>{item.brand}</strong> in{" "}
-                                          <strong>{item.categories[0]}</strong>
-                                        </p>
-                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                                <div>
-                                  <ChevronRightIcon
-                                    className="w-5 h-5 text-gray-400"
-                                    aria-hidden="true"
-                                  />
-                                </div>
                               </div>
-                            </a>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  )}
-                </section>
-              );
-            })}
-          </div>
+                              <div>
+                                <ChevronRightIcon
+                                  className="w-5 h-5 text-gray-400"
+                                  aria-hidden="true"
+                                />
+                              </div>
+                            </div>
+                          </a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </section>
+            );
+          })}
         </div>
       ) : null}
     </div>
