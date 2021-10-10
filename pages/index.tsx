@@ -140,7 +140,7 @@ const IndexPage: NextPage = () => {
                 </div>
               </div>
 
-              <Disclosure.Panel className="lg:hidden">
+              <Disclosure.Panel className="lg:hidden z-10 relative bg-teal-200">
                 <div className="px-2 pt-2 pb-3 space-y-1">
                   {navigation.map((item) => (
                     <a
@@ -149,7 +149,7 @@ const IndexPage: NextPage = () => {
                       className={classNames(
                         item.current
                           ? "bg-teal-700 text-white"
-                          : "text-white hover:bg-teal-500 hover:bg-opacity-75",
+                          : "text-teal-700 hover:bg-teal-100 hover:bg-opacity-75",
                         "block rounded-md py-2 px-3 text-base font-medium"
                       )}
                       aria-current={item.current ? "page" : undefined}
@@ -168,10 +168,10 @@ const IndexPage: NextPage = () => {
                       />
                     </div>
                     <div className="ml-3">
-                      <div className="text-base font-medium text-white">
+                      <div className="text-base font-medium text-teal-700">
                         {user.name}
                       </div>
-                      <div className="text-sm font-medium text-teal-300">
+                      <div className="text-sm font-medium text-teal-600">
                         {user.email}
                       </div>
                     </div>
@@ -188,7 +188,7 @@ const IndexPage: NextPage = () => {
                       <a
                         key={item.name}
                         href={item.href}
-                        className="block rounded-md py-2 px-3 text-base font-medium text-white hover:bg-teal-500 hover:bg-opacity-75"
+                        className="block rounded-md py-2 px-3 text-base font-medium text-teal-700 hover:bg-teal-100 hover:bg-opacity-75"
                       >
                         {item.name}
                       </a>
