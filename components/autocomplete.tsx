@@ -39,6 +39,18 @@ export function Autocomplete(
     activeItemId: null,
     status: "idle",
   });
+
+  // React.useEffect(() => {
+  //   const handleEscape = (e: KeyboardEvent) => {
+  //     if (e.key !== "Escape") {
+  //       return;
+  //     }
+  //     setAutocompleteState((prevState) => ({ ...prevState, isOpen: false }));
+  //   };
+  //   addEventListener("keydown", handleEscape);
+  //   return () => removeEventListener("keydown", handleEscape);
+  // }, []);
+
   const autocomplete = React.useMemo(
     () =>
       createAutocomplete<
