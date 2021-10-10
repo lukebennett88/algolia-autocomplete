@@ -11,6 +11,8 @@
   "dependencies": {
     "@algolia/autocomplete-js": "^1.4.0",
     "@algolia/autocomplete-theme-classic": "^1.4.0",
+    "@headlessui/react": "^1.4.1",
+    "@heroicons/react": "^1.0.4",
     "algoliasearch": "^4.10.5",
     "next": "^11.1.2",
     "react": "^17.0.2",
@@ -20,9 +22,12 @@
     "@algolia/client-search": "^4.10.5",
     "@types/react": "^17.0.27",
     "@types/react-dom": "^17.0.9",
+    "autoprefixer": "^10.3.7",
     "eslint": "^7.32.0",
     "eslint-config-next": "^11.1.2",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "postcss": "^8.3.9",
+    "tailwindcss": "^2.2.16",
     "typescript": "^4.4.3"
   }
 }
