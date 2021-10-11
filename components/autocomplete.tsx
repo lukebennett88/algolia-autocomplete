@@ -128,7 +128,7 @@ export function Autocomplete(
               type="submit"
               title="Submit"
               className={classNames(
-                "rounded-md pointer-events-auto p-1 -ml-1",
+                "rounded-md pointer-events-auto p-1 -ml-1.5",
                 "focus:outline-none focus:ring-2 focus:ring-teal-600"
               )}
             >
@@ -141,6 +141,20 @@ export function Autocomplete(
             {...inputProps}
             type="text"
           />
+          {autocompleteState.query ? (
+            <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+              <button
+                type="reset"
+                title="Clear"
+                className={classNames(
+                  "rounded-md pointer-events-auto p-1 -mr-1.5",
+                  "focus:outline-none focus:ring-2 focus:ring-teal-600"
+                )}
+              >
+                <XIcon className="w-5 h-5" aria-hidden="true" />
+              </button>
+            </div>
+          ) : null}
         </div>
       </form>
 
