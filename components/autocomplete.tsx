@@ -123,7 +123,7 @@ export function Autocomplete(
           Search
         </label>
         <div className="relative text-gray-400 focus-within:text-gray-600">
-          <div className="pointer-events-none absolute inset-y-0 left-0 px-3 flex items-center">
+          <div className="absolute inset-y-0 left-0 flex items-center px-3 pointer-events-none">
             <button
               type="submit"
               title="Submit"
@@ -132,11 +132,11 @@ export function Autocomplete(
                 "focus:outline-none focus:ring-2 focus:ring-teal-600"
               )}
             >
-              <SearchIcon className="h-5 w-5" aria-hidden="true" />
+              <SearchIcon className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
           <input
-            className="block w-full bg-white py-2 pl-11 pr-3 border border-transparent rounded-md leading-5 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-600 focus:ring-white focus:border-white sm:text-sm"
+            className="block w-full px-10 py-2 leading-5 text-gray-900 placeholder-gray-500 bg-white border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-600 focus:ring-white focus:border-white sm:text-sm"
             ref={inputRef}
             {...inputProps}
             type="text"
@@ -187,10 +187,10 @@ export function Autocomplete(
                           >
                             <div className="flex items-center px-4 py-4 sm:px-6">
                               <div className="flex items-center flex-1 min-w-0">
-                                <div className="flex-shrink-0 border p-1 rounded">
+                                <div className="flex-shrink-0 p-1 border rounded">
                                   {/* eslint-disable-next-line @next/next/no-img-element */}
                                   <img
-                                    className="w-12 h-12 object-contain"
+                                    className="object-contain w-12 h-12"
                                     src={item.image}
                                     alt={item.name}
                                   />
