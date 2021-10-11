@@ -136,7 +136,7 @@ export function Autocomplete(
             </button>
           </div>
           <input
-            className="block w-full px-10 py-2 leading-5 text-gray-900 placeholder-gray-500 bg-white border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-600 focus:ring-white focus:border-white sm:text-sm"
+            className="block w-full px-10 py-2 leading-5 text-gray-900 placeholder-gray-500 bg-white border border-transparent rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-teal-600 focus:ring-white focus:border-white sm:text-sm"
             ref={inputRef}
             {...inputProps}
             type="text"
