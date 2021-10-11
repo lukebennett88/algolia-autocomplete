@@ -13,6 +13,7 @@
     "@algolia/autocomplete-theme-classic": "^1.4.0",
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
+    "@tailwindcss/forms": "^0.3.4",
     "algoliasearch": "^4.10.5",
     "next": "^11.1.2",
     "react": "^17.0.2",
